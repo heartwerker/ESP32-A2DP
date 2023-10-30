@@ -1146,7 +1146,7 @@ void BluetoothA2DPSink::app_a2d_callback(esp_a2d_cb_event_t event, esp_a2d_cb_pa
 }
 
 void BluetoothA2DPSink::audio_data_callback(const uint8_t *data, uint32_t len) {
-    ESP_LOGD(BT_AV_TAG, "%s", __func__);
+    // ESP_LOGD(BT_AV_TAG, "%s", __func__);
     bool is_callback_used = false; 
 
     // swap left and right channels
@@ -1454,8 +1454,10 @@ void BluetoothA2DPSink::volume_set_by_controller(uint8_t volume)
     s_volume = volume;
     _lock_release(&s_volume_lock);
     
+    #if 0
     volume_control()->set_volume(s_volume);
     volume_control()->set_enabled(true);
+    #endif
 
     if (bt_volumechange!=nullptr){
         (*bt_volumechange)(s_volume);
