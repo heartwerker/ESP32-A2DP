@@ -232,6 +232,7 @@ void BluetoothA2DPSink::start(const char* name)
     ESP_LOGI(BT_AV_TAG,"IDF Version %d.%d",ESP_IDF_VERSION_MAJOR,ESP_IDF_VERSION_MINOR);
     log_free_heap();
 
+    set_i2s_active(true);
 }
 
 #if A2DP_I2S_SUPPORT
@@ -719,11 +720,13 @@ void BluetoothA2DPSink::handle_audio_state(uint16_t event, void *p_param){
         audio_state_callback(a2d->audio_stat.state, audio_state_obj);
     }
 
+#if 0
     if (ESP_A2D_AUDIO_STATE_STARTED == a2d->audio_stat.state) { 
         set_i2s_active(true);
     } else if ( ESP_A2D_AUDIO_STATE_REMOTE_SUSPEND == a2d->audio_stat.state || ESP_A2D_AUDIO_STATE_STOPPED == a2d->audio_stat.state ) { 
         set_i2s_active(false);
     }
+#endif
 
     if (audio_state_callback_post!=nullptr){
         audio_state_callback_post(a2d->audio_stat.state, audio_state_obj_post);
